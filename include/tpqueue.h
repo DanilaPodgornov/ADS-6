@@ -10,66 +10,47 @@ class TPQueue {
     int head, tail, count;
 
  public:
-    TPQueue();
-    ~TPQueue();
-    void push(const T& value);
-    T pop();
-    bool isEmpty() const;
-    bool isFull() const;
-};
+    TPQueue():head(0), tail(0), count(0) {
+        arr = new T[size];
+    }
 
-template<typename T, int size>
-inline TPQueue<T, size>::TPQueue():head(0), tail(0), count(0) {
-    this->arr = new T[size];
-}
+    ~TPQueue() {
+        delete[] arr;
+    }
 
-template<typename T, int size>
-inline TPQueue<T, size>::~TPQueue() {
-    delete [] arr;
-}
+    bool isEmpty() const {
+        return count == 0;
+    }
 
-template<typename T, int size>
-inline void TPQueue<T, size>::push(const T& value) {
-    if (isFull()) {
-        throw std::string("Queue is Full!");
-    } else {
-        int temp;
-        if (tail == 0) {
-            temp = size - 1;
+    void push(const T& value) {
+        if (size != count) {
+            int temp = tail;
+            for (int i = head; i < tail; i++) {
+                if (value.prior > arr[i].prior) {
+                    temp = i;
+                    break;
+                }
+            }
+            for (int i = tail; i > temp; i--) {
+                arr[i % size] = arr[(i - 1) % size];
+            }
+            arr[temp % size] = value;
+            tail = (tail + 1) % size;
+            count++;
+        }
+    }
+
+    T& pop() {
+        if (isEmpty()) {
+            return NULL;
         } else {
-            temp = --tail;
+            T out = arr[head];
+            head = (head + 1) % size;
+            count--;
+            return out;
         }
-        while (value.prior > arr[temp].prior) {
-            arr[++temp % size] = arr[temp];
-            temp--;
-        }
-        arr[temp] = value;
-        count++;
-        tail = ++tail % size;
     }
-}
-
-template<typename T, int size>
-inline T TPQueue<T, size>::pop() {
-    if (isEmpty) {
-        throw std::string("Queue is Empty!");
-    } else {
-        int out = head;
-        count--;
-        head = ++head % size;
-        return arr[out];
-    }
-}
-
-template<typename T, int size>
-inline bool TPQueue<T, size>::isEmpty() const {
-    return count == 0;
-}
-
-template<typename T, int size>
-inline bool TPQueue<T, size>::isFull() const {
-    return count == size;
-}
+};
 
 struct SYM {
   char ch;
