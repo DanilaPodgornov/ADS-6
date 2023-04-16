@@ -1,6 +1,7 @@
 // Copyright 2022 NNTU-CS
 #ifndef INCLUDE_TPQUEUE_H_
 #define INCLUDE_TPQUEUE_H_
+#include <string>
 
 template<typename T, int size>
 class TPQueue {
@@ -11,7 +12,7 @@ class TPQueue {
  public:
     TPQueue();
     ~TPQueue();
-    void push(T value);
+    void push(const T& value);
     T pop();
     bool isEmpty() const;
     bool isFull() const;
@@ -28,7 +29,7 @@ inline TPQueue<T, size>::~TPQueue() {
 }
 
 template<typename T, int size>
-inline void TPQueue<T, size>::push(T value) {
+inline void TPQueue<T, size>::push(const T& value) {
     if (isFull()) {
         throw std::string("Queue is Full!");
     } else {
