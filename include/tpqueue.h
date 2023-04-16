@@ -35,7 +35,7 @@ class TPQueue {
                 arr[i % size] = arr[(i - 1) % size];
             }
             arr[temp % size] = value;
-            tail = (tail + 1) % size;
+            tail++;
             count++;
         }
     }
