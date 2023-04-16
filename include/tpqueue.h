@@ -40,9 +40,9 @@ class TPQueue {
         }
     }
 
-    T& pop() {
+    T pop() {
         if (isEmpty()) {
-            return NULL;
+            throw std::string("Queue is Empty!");
         } else {
             T out = arr[head];
             head = (head + 1) % size;
